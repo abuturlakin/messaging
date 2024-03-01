@@ -5,6 +5,7 @@
         public Message()
         {
             Id = Guid.NewGuid();
+            Status = MessageStatus.NotProcessed;
         }
 
         public Guid Id { get; set; }

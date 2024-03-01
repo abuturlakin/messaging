@@ -4,16 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace App.QueueService;
 
-public sealed class MonitorLoop(
+public sealed class QueueMonitor(
     IBackgroundTaskQueue taskQueue,
-    ILogger<MonitorLoop> logger,
+    ILogger<QueueMonitor> logger,
     IHostApplicationLifetime applicationLifetime,
     IMessageService messageService
 )
 {
-    private readonly CancellationToken _cancellationToken = applicationLifetime.ApplicationStopping;
-
-    public void StartMonitorLoop()
+    public void Start()
     {
         logger.LogInformation($"{nameof(MonitorAsync)} loop is starting.");
         Task.Run(async () => await MonitorAsync());
@@ -21,7 +19,8 @@ public sealed class MonitorLoop(
 
     private async ValueTask MonitorAsync()
     {
-        while (!_cancellationToken.IsCancellationRequested)
+        CancellationToken cancellationToken = applicationLifetime.ApplicationStopping;
+        while (!cancellationToken.IsCancellationRequested)
             await BuildWorkItemsAsync(taskQueue);
     }
 
@@ -33,16 +32,16 @@ public sealed class MonitorLoop(
 
         foreach (var message in messages)
         {
-            ValueTask workItem(CancellationToken token) => BuildWorkItemAsync(token, message);
+            ValueTask workItem(CancellationToken cancellationToken) => BuildWorkItemAsync(cancellationToken, message);
             await taskQueue.QueueBackgroundWorkItemAsync(workItem);
         }
     }
 
-    private async ValueTask BuildWorkItemAsync(CancellationToken token, Message message)
+    private async ValueTask BuildWorkItemAsync(CancellationToken cancellationToken, Message message)
     {
         logger.LogInformation($"Start sending message {message.Id}.");
 
-        await Task.Delay(TimeSpan.FromSeconds(1), token);
+        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 
         logger.LogInformation($"Completed sending message {message.Id}.");
     }

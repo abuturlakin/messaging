@@ -1,28 +1,8 @@
-﻿using App.QueueService;
-
-using Messaging;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+var host = Messaging.Host.Application.Start(args);
+var monitor = host.Services.GetRequiredService<App.QueueService.QueueMonitor>()!;
 
-builder.Services
-    .AddSingleton<MonitorLoop>()
-    .AddHostedService<QueuedHostedService>()
-    .AddSingleton<IMessageService, MessageService>()
-
-    .AddSingleton<IBackgroundTaskQueue>(_ =>
-    {
-        if (!int.TryParse(builder.Configuration["QueueCapacity"], out var queueCapacity))
-        {
-            queueCapacity = 100;
-        }
-        return new DefaultBackgroundTaskQueue(queueCapacity);
-    });
-
-IHost host = builder.Build();
-
-MonitorLoop monitorLoop = host.Services.GetRequiredService<MonitorLoop>()!;
-monitorLoop.StartMonitorLoop();
-
+monitor.Start();
 host.Run();
