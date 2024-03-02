@@ -16,7 +16,7 @@ public class MessageDeliveryServiceMock(
 
 #if DEBUG
         var messageBody = $"sending message {message.Id} from batch {message.BatchNumber}.";
-        logger.LogInformation($"Start {messageBody}");
+        //logger.LogInformation($"Start {messageBody}");
 #endif
 
         await Task.Delay(TimeSpan.FromSeconds(1), spec.CancellationToken);

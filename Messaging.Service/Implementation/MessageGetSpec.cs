@@ -10,17 +10,28 @@
 
         public MessageStatus? Status { get; set; }
 
+        public Func<Message, int> OrderBy { get; set; }
+
         public static MessageGetSpec NonProcessedSpec(int pageSize)
         {
-            return MessageGetSpec.StatusSpec(MessageStatus.NonProcessed, pageSize);
+            return StatusSpec(
+                MessageStatus.NonProcessed, 
+                pageSize,
+                m => m.BatchNumber
+            );
         }
 
-        public static MessageGetSpec StatusSpec(MessageStatus status, int pageSize)
+        public static MessageGetSpec StatusSpec(
+            MessageStatus status, 
+            int pageSize, 
+            Func<Message, int> orderBy
+        )
         {
             return new MessageGetSpec
             {
                 Status = status,
-                PageSize = pageSize
+                PageSize = pageSize,
+                OrderBy = orderBy
             };
         }
     }

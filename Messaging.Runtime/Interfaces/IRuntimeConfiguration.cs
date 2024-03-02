@@ -3,5 +3,7 @@
     public interface IRuntimeConfiguration
     {
         int QueueCapacity { get; set; }
+
+        int RunInterval { get; set; }
     }
 }

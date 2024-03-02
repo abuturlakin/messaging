@@ -7,9 +7,10 @@ namespace Messaging.Runtime.Implementation;
 
 public sealed class QueueMonitor(
     ILogger<QueueMonitor> logger,
+    IRuntimeConfiguration runtimeConfiguration,
     IBackgroundTaskQueue taskQueue,
     IHostApplicationLifetime applicationLifetime,
-    IQueueSource queueSource,
+    IQueueSourceData queueSourceData,
     IWorkItemBuilder workItemBuilder
 )
 {
@@ -28,14 +29,29 @@ public sealed class QueueMonitor(
 
     private async Task BuildWorkItemsAsync(IBackgroundTaskQueue taskQueue)
     {
-        var messages = queueSource.Provide();
+        logger.LogInformation($"Loading batch...");
 
-        if (!messages.Any()) return;
+        var messages = queueSourceData.Enqueue();
 
-        logger.LogInformation($"{Environment.NewLine}Loading and processing batch...");
+        if (!messages.Any())
+            await Hibernate();
+
+        await ProcessTasks(messages);
+    }
+
+    private async Task ProcessTasks(IEnumerable<Message> messages)
+    {
+        logger.LogInformation($"Processing batch...");
 
         foreach (var message in messages)
             await BuildWorkItemAsync(workItemBuilder, taskQueue, message);
+    }
+
+    private async Task Hibernate()
+    {
+        logger.LogInformation($"No input data to process...");
+        logger.LogInformation($"Pausing for {runtimeConfiguration.RunInterval} seconds...");
+        await Task.Delay(TimeSpan.FromSeconds(runtimeConfiguration.RunInterval));
     }
 
     private static async Task BuildWorkItemAsync(

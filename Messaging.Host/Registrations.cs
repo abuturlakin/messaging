@@ -25,7 +25,7 @@ namespace Messaging.Host
                 .AddHostedService<QueuedHostedService>()
                 .AddTransient<IWorkItemBuilder, WorkItemBuilder>()
                 .AddTransient<IMessageSender, MessageSender>()
-                .AddTransient<IQueueSource, QueueSource>()
+                .AddTransient<IQueueSourceData, QueueSourceData>()
                 .AddSingleton<IBackgroundTaskQueue>(_ =>
                 {
                     return new DefaultBackgroundTaskQueue(configuration.QueueCapacity);

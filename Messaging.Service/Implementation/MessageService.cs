@@ -31,6 +31,9 @@ namespace Messaging.Service.Implementation
 
             var query = _messages.Where(predicate);
 
+            if (spec.OrderBy != null)
+                query = query.OrderBy(spec.OrderBy);
+
             if (spec.PageSize.HasValue)
                 query = query.Take(spec.PageSize.Value);
 
