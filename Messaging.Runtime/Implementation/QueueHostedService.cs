@@ -1,7 +1,8 @@
+using Messaging.Runtime.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace App.QueueService;
+namespace Messaging.Runtime.Implementation;
 
 public sealed class QueuedHostedService
 (
@@ -11,7 +12,7 @@ public sealed class QueuedHostedService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("{Name} is running.",nameof(QueuedHostedService));
+        logger.LogInformation("{Name} is running.", nameof(QueuedHostedService));
         return ProcessTaskQueueAsync(stoppingToken);
     }
 

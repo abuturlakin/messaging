@@ -2,7 +2,7 @@
 {
     public enum MessageStatus
     {
-        NotProcessed = 1,
+        NonProcessed = 1,
 
         Enqueued = 2,
 

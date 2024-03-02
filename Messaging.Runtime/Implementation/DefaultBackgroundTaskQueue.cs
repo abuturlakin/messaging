@@ -1,6 +1,7 @@
 ﻿using System.Threading.Channels;
+using Messaging.Runtime.Interfaces;
 
-namespace App.QueueService;
+namespace Messaging.Runtime.Implementation;
 
 public sealed class DefaultBackgroundTaskQueue : IBackgroundTaskQueue
 {

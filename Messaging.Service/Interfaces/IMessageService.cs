@@ -1,5 +1,6 @@
-﻿
-namespace Messaging
+﻿using Messaging.Service.Implementation;
+
+namespace Messaging.Service.Interfaces
 {
     public interface IMessageService
     {
@@ -7,6 +8,6 @@ namespace Messaging
 
         Message Get(MessageGetSpec spec);
 
-        void Save(Message message);
+        ValueTask SaveAsync(Message message);
     }
 }

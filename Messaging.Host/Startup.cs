@@ -1,28 +1,21 @@
-﻿using App.QueueService;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+
+using Messaging.Runtime.Implementation;
 
 namespace Messaging.Host
 {
-    internal static class Application
+    internal static partial class Application
     {
-        internal static IHost Start(string[] args) {
+        internal static IHost Start(string[] args)
+        {
             HostApplicationBuilder builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(args);
 
-            builder.Services
-                .AddSingleton<QueueMonitor>()
-                .AddHostedService<QueuedHostedService>()
-                .AddSingleton<IMessageService, MessageService>()
+            var configuration = builder.Configuration
+                .GetSection(typeof(RuntimeConfiguration).Name)
+                .Get<RuntimeConfiguration>()!;
 
-                .AddSingleton<IBackgroundTaskQueue>(_ =>
-                {
-                    if (!int.TryParse(builder.Configuration["QueueCapacity"], out var queueCapacity))
-                    {
-                        queueCapacity = 100;
-                    }
-                    return new DefaultBackgroundTaskQueue(queueCapacity);
-                });
+            RegisterDependencies(builder, configuration);
 
             return builder.Build();
         }
