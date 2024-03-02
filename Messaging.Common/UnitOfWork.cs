@@ -10,10 +10,15 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
         try
         {
             Process(context);
+            OnSuccess(context);
         }
         catch
         {
             OnError(context);
+        }
+        finally
+        {
+            OnExecutionEnd(context);
         }
     }
 
@@ -22,25 +27,33 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
         try
         {
             await ProcessAsync(context);
+            OnSuccess(context);
         }
         catch
         {
             OnError(context);
         }
+        finally
+        {
+            await OnExecutionEndAsync(context);
+        }
     }
 
-    public virtual void Process(TContext context)
-    {
-        throw new NotSupportedException();
-    }
+    public virtual void Process(TContext context) {}
 
     public virtual async ValueTask ProcessAsync(TContext context)
     {
-        throw new NotSupportedException();
+        await ValueTask.CompletedTask;
     }
 
-    public virtual void OnError(TContext context)
+    public virtual void OnSuccess(TContext context) {}
+
+    public virtual void OnError(TContext context) {}
+
+    public virtual void OnExecutionEnd(TContext context){}
+
+    public virtual async ValueTask OnExecutionEndAsync(TContext context)
     {
-        throw new NotImplementedException();
+        await ValueTask.CompletedTask;
     }
 }

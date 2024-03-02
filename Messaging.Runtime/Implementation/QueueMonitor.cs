@@ -6,8 +6,8 @@ using Messaging.Runtime.Interfaces;
 namespace Messaging.Runtime.Implementation;
 
 public sealed class QueueMonitor(
-    IBackgroundTaskQueue taskQueue,
     ILogger<QueueMonitor> logger,
+    IBackgroundTaskQueue taskQueue,
     IHostApplicationLifetime applicationLifetime,
     IQueueSource queueSource,
     IWorkItemBuilder workItemBuilder
@@ -15,7 +15,7 @@ public sealed class QueueMonitor(
 {
     public void Start()
     {
-        logger.LogInformation($"{nameof(MonitorAsync)} loop is starting.");
+        logger.LogInformation($"{nameof(QueueMonitor)} process is starting...");
         Task.Run(async () => await MonitorAsync());
     }
 
@@ -32,12 +32,10 @@ public sealed class QueueMonitor(
 
         if (!messages.Any()) return;
 
-        logger.LogInformation($"Loading and processing batch...");
+        logger.LogInformation($"{Environment.NewLine}Loading and processing batch...");
 
         foreach (var message in messages)
             await BuildWorkItemAsync(workItemBuilder, taskQueue, message);
-
-        logger.LogInformation($"Loading and processing batch completed...");
     }
 
     private static async Task BuildWorkItemAsync(

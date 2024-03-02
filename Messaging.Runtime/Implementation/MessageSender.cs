@@ -1,40 +1,35 @@
-﻿using Microsoft.Extensions.Logging;
-
+﻿using Messaging.Common;
 using Messaging.Runtime.Implementation;
 using Messaging.Service.Interfaces;
-using Messaging.Common;
+using Messaging.Runtime.Interfaces;
 
 namespace Messaging.Service.Implementation;
 
 public class MessageSender
 (
-    ILogger<QueueMonitor> logger,
-    IMessageService messageService
+    IMessageSaver messageSaver,
+    IMessageDeliveryService messageDeliveryService
 ) : UnitOfWork<MessageSenderSpec>, IMessageSender
 {
     public override async ValueTask ProcessAsync(MessageSenderSpec spec)
     {
-        var message = spec.Message;
+        var deliverySpec = MessageDeliveryServiceSpec.Create(spec.Message, spec.CancellationToken);
+        await messageDeliveryService.CommitAsync(deliverySpec);
+    }
 
-        try
-        {
+    public override void OnSuccess(MessageSenderSpec spec)
+    {
+        spec.Message.Status = MessageStatus.Processed;
+    }
 
-            logger.LogInformation($"Start sending message {message.Id} from batch {message.BatchNumber}.");
+    public override void OnError(MessageSenderSpec spec)
+    {
+        spec.Message.Status = MessageStatus.Failed;
+    }
 
-            await Task.Delay(TimeSpan.FromSeconds(1), spec.CancellationToken);
-
-            message.Status = MessageStatus.Processed;
-
-
-            logger.LogInformation($"Completed sending message {message.Id} from batch {message.BatchNumber}.");
-        }
-        catch (Exception)
-        {
-            message.Status = MessageStatus.Failed;
-
-            throw;
-        }
-
-        await messageService.SaveAsync(message);
+    public override async ValueTask OnExecutionEndAsync(MessageSenderSpec spec)
+    {
+        var saveSpec = MessageSaverSpec.Create(spec.Message);
+        await messageSaver.CommitAsync(saveSpec);
     }
 }

@@ -29,7 +29,10 @@ namespace Messaging.Host
                 .AddSingleton<IBackgroundTaskQueue>(_ =>
                 {
                     return new DefaultBackgroundTaskQueue(configuration.QueueCapacity);
-                });
+                })
+
+                // delivery service
+                .AddTransient<IMessageDeliveryService, MessageDeliveryServiceMock>();
         }
     }
 }
