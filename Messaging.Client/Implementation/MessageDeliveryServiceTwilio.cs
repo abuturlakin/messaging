@@ -29,6 +29,7 @@ public class MessageDeliveryServiceTwilio(
         //logger.LogInformation($"Start {messageBody}");
 #endif
             await MessageResource.CreateAsync(
+                //to: new PhoneNumber(message.Phone),
                 to: new PhoneNumber(TwilioConfiguration.TwilioVirtual),
                 from: new PhoneNumber(TwilioConfiguration.Twilio),
                 body: "TEST"
