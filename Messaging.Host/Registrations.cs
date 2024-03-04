@@ -7,6 +7,8 @@ using Messaging.Runtime.Interfaces;
 using Messaging.Runtime.Implementation;
 using Messaging.Client.Implementation;
 using Messaging.Client.Interfaces;
+using Messaging.Data.Interfaces;
+using Messaging.Data.Implementation;
 
 namespace Messaging.Host
 {
@@ -17,6 +19,9 @@ namespace Messaging.Host
             builder.Services
                 // configuration
                 .AddSingleton<IRuntimeConfiguration, RuntimeConfiguration>(_ => configuration)
+
+                // data context
+                .AddTransient<IDataContext, MemoryDataContext>()
 
                 // data access
                 .AddTransient<IMessageService, MessageService>()

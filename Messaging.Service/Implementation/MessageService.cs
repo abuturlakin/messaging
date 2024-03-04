@@ -1,19 +1,14 @@
-﻿using Messaging.Service.Interfaces;
+﻿using Messaging.Data.Interfaces;
+using Messaging.Service.Interfaces;
+using System.Data.Entity;
 
 namespace Messaging.Service.Implementation
 {
-    public class MessageService : IMessageService
+    public class MessageService(
+        IDataContext context
+    ) : IMessageService
     {
-        private static readonly IEnumerable<Message> _messages = new List<Message>()
-        {
-            Message.Mock(1), Message.Mock(1), Message.Mock(1), Message.Mock(1), Message.Mock(1),
-            Message.Mock(2), Message.Mock(2), Message.Mock(2), Message.Mock(2), Message.Mock(2),
-            Message.Mock(3), Message.Mock(3), Message.Mock(3), Message.Mock(3), Message.Mock(3),
-            Message.Mock(4), Message.Mock(4), Message.Mock(4), Message.Mock(4), Message.Mock(4),
-            Message.Mock(5), Message.Mock(5), Message.Mock(5), Message.Mock(5), Message.Mock(5)
-        };
-
-        public MessageService() { }
+        private readonly IDbSet<Message> _messages = context.Messages;
 
         public Message Get(MessageGetSpec spec)
         {
@@ -41,8 +36,7 @@ namespace Messaging.Service.Implementation
         }
 
         public async ValueTask SaveAsync(Message message) {
-            // imitation of save to db delay...
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await context.SaveChangesAsync();
         }
     }
 }
