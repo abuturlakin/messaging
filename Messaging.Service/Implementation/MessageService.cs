@@ -1,6 +1,7 @@
-﻿using Messaging.Data.Interfaces;
+﻿using System.Data.Entity;
+
+using Messaging.Data.Interfaces;
 using Messaging.Service.Interfaces;
-using System.Data.Entity;
 
 namespace Messaging.Service.Implementation
 {

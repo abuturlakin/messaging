@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
 
+        [Obsolete("Test use only")]
         public int BatchNumber { get; private set; }
 
         public MessageStatus Status { get; set; }

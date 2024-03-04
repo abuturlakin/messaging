@@ -1,20 +1,40 @@
-﻿using Messaging.Service.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+
+using Messaging.Service.Interfaces;
 using Messaging.Client.Implementation;
 using Messaging.Client.Interfaces;
 using Messaging.Common.Implementation;
+using Messaging.Runtime.Implementation;
 
 namespace Messaging.Service.Implementation;
 
 public class MessageSender
 (
+    ILogger<MessageDeliveryServiceTwilio> logger,
     IMessageSaver messageSaver,
     IMessageDeliveryService messageDeliveryService
 ) : UnitOfWork<MessageSenderSpec>, IMessageSender
 {
     public override async Task ProcessAsync(MessageSenderSpec spec)
     {
-        var deliverySpec = MessageDeliveryServiceSpec.Create(spec.Message, spec.CancellationToken);
+        var message = spec.Message;
+
+#if DEBUG
+        var messageBody = $"sending message {message.Id} from batch {message.BatchNumber}.";
+        //logger.LogInformation($"Start {messageBody}");
+#endif
+
+        var deliverySpec = MessageDeliveryServiceSpec.Create(
+            spec.Message,
+            m => m.ToMessageBody(),
+            spec.CancellationToken
+        );
+
         await messageDeliveryService.CommitAsync(deliverySpec);
+
+#if DEBUG
+        logger.LogInformation($"Completed {messageBody}");
+#endif
     }
 
     public override void OnSuccess(MessageSenderSpec spec)

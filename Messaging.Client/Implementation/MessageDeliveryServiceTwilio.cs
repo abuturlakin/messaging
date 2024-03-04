@@ -1,19 +1,15 @@
 ﻿using Messaging.Client.Interfaces;
-using Microsoft.Extensions.Logging;
 
 using Twilio;
 using Twilio.Types;
+using Twilio.Rest.Api.V2010.Account;
 
 using Messaging.Client.Configuration;
-using Twilio.Rest.Api.V2010.Account;
 using Messaging.Common.Implementation;
 
 namespace Messaging.Client.Implementation;
 
-public class MessageDeliveryServiceTwilio(
-    ILogger<MessageDeliveryServiceTwilio> logger
-
-) : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
+public class MessageDeliveryServiceTwilio : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
 {
     static MessageDeliveryServiceTwilio()
     {
@@ -22,22 +18,11 @@ public class MessageDeliveryServiceTwilio(
 
     public override async Task ProcessAsync(MessageDeliveryServiceSpec spec)
     {
-        var message = spec.Message;
-
-#if DEBUG
-        var messageBody = $"sending message {message.Id} from batch {message.BatchNumber}.";
-        //logger.LogInformation($"Start {messageBody}");
-#endif
-            await MessageResource.CreateAsync(
-                //to: new PhoneNumber(message.Phone),
-                to: new PhoneNumber(TwilioConfiguration.TwilioVirtual),
-                from: new PhoneNumber(TwilioConfiguration.Twilio),
-                body: "TEST"
-            );
-;
-
-#if DEBUG
-        logger.LogInformation($"Completed {messageBody}");
-#endif
+        await MessageResource.CreateAsync(
+            //to: new PhoneNumber(spec.Message.Phone),
+            to: new PhoneNumber(TwilioConfiguration.TwilioVirtual),
+            from: new PhoneNumber(TwilioConfiguration.Twilio),
+            body: spec.Body
+        );
     }
 }
