@@ -15,18 +15,11 @@ public class MessageDeliveryServiceTwilio(
 
 ) : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
 {
-/*    static MessageDeliveryServiceTwilio()
+    static MessageDeliveryServiceTwilio()
     {
-        TwilioClient.Init(TwilioConfiguration.AccountSid, TwilioConfiguration.AuthToken);
-
-    }*/
-
-/*    public override void OnStart(MessageDeliveryServiceSpec context)
-    {
-        base.OnStart(context);
         TwilioClient.Init(TwilioConfiguration.AccountSid, TwilioConfiguration.AuthToken);
     }
-*/
+
     public override async ValueTask ProcessAsync(MessageDeliveryServiceSpec spec)
     {
         var message = spec.Message;
@@ -35,8 +28,6 @@ public class MessageDeliveryServiceTwilio(
         var messageBody = $"sending message {message.Id} from batch {message.BatchNumber}.";
         //logger.LogInformation($"Start {messageBody}");
 #endif
-            TwilioClient.Init(TwilioConfiguration.AccountSid, TwilioConfiguration.AuthToken);
-
             await MessageResource.CreateAsync(
                 to: new PhoneNumber(TwilioConfiguration.TwilioVirtual),
                 from: new PhoneNumber(TwilioConfiguration.Twilio),
