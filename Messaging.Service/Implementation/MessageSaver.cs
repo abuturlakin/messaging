@@ -1,4 +1,4 @@
-﻿using Messaging.Common;
+﻿using Messaging.Common.Implementation;
 using Messaging.Service.Interfaces;
 
 namespace Messaging.Service.Implementation;

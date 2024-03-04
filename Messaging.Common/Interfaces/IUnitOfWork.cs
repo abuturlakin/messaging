@@ -1,4 +1,4 @@
-﻿namespace Messaging.Common
+﻿namespace Messaging.Common.Interfaces
 {
     public interface IUnitOfWork<TContext> where TContext : class
     {

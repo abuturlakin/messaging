@@ -1,5 +1,4 @@
-﻿using Messaging.Common;
-using Messaging.Client.Interfaces;
+﻿using Messaging.Client.Interfaces;
 using Microsoft.Extensions.Logging;
 
 using Twilio;
@@ -7,6 +6,7 @@ using Twilio.Types;
 
 using Messaging.Client.Configuration;
 using Twilio.Rest.Api.V2010.Account;
+using Messaging.Common.Implementation;
 
 namespace Messaging.Client.Implementation;
 

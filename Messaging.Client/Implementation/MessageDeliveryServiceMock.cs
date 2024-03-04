@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-
-using Messaging.Common;
 using Messaging.Client.Interfaces;
+using Messaging.Common.Implementation;
 
 namespace Messaging.Client.Implementation;
 
