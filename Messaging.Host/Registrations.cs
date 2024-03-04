@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 using Messaging.Service.Interfaces;
 using Messaging.Service.Implementation;
 using Messaging.Runtime.Interfaces;
 using Messaging.Runtime.Implementation;
+using Messaging.Client.Implementation;
+using Messaging.Client.Interfaces;
 
 namespace Messaging.Host
 {

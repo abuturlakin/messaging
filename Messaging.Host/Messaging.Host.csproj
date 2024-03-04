@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Messaging.Client\Messaging.Client.csproj" />
     <ProjectReference Include="..\Messaging.Domain\Messaging.Domain.csproj" />
     <ProjectReference Include="..\Messaging.Runtime\Messaging.Runtime.csproj" />
     <ProjectReference Include="..\Messaging.Service\Messaging.Service.csproj" />

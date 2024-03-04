@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Messaging.Common;
-using Messaging.Runtime.Interfaces;
+using Messaging.Client.Interfaces;
 
-namespace Messaging.Runtime.Implementation;
+namespace Messaging.Client.Implementation;
 
 public class MessageDeliveryServiceMock(
     ILogger<MessageDeliveryServiceMock> logger

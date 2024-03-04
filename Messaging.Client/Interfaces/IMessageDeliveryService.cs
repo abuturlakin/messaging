@@ -1,7 +1,8 @@
 ﻿using Messaging.Common;
-using Messaging.Runtime.Implementation;
 
-namespace Messaging.Runtime.Interfaces
+using Messaging.Client.Implementation;
+
+namespace Messaging.Client.Interfaces
 {
     public interface IMessageDeliveryService : IUnitOfWork<MessageDeliveryServiceSpec> { }
 }

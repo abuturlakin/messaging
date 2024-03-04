@@ -1,4 +1,4 @@
-﻿namespace Messaging.Runtime.Implementation
+﻿namespace Messaging.Client.Implementation
 {
     public class MessageDeliveryServiceSpec
     {

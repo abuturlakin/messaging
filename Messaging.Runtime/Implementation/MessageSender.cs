@@ -1,7 +1,7 @@
 ﻿using Messaging.Common;
-using Messaging.Runtime.Implementation;
 using Messaging.Service.Interfaces;
-using Messaging.Runtime.Interfaces;
+using Messaging.Client.Implementation;
+using Messaging.Client.Interfaces;
 
 namespace Messaging.Service.Implementation;
 
