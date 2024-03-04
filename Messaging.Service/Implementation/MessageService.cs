@@ -6,11 +6,11 @@ namespace Messaging.Service.Implementation
     {
         private static readonly IEnumerable<Message> _messages = new List<Message>()
         {
-            new Message(1), new Message(1), new Message(1), new Message(1), new Message(1),
-            new Message(2), new Message(2), new Message(2), new Message(2), new Message(2),
-            new Message(3), new Message(3), new Message(3), new Message(3), new Message(3),
-            new Message(4), new Message(4), new Message(4), new Message(4), new Message(4),
-            new Message(5), new Message(5), new Message(5), new Message(5), new Message(5)
+            Message.Mock(1), Message.Mock(1), Message.Mock(1), Message.Mock(1), Message.Mock(1),
+            Message.Mock(2), Message.Mock(2), Message.Mock(2), Message.Mock(2), Message.Mock(2),
+            Message.Mock(3), Message.Mock(3), Message.Mock(3), Message.Mock(3), Message.Mock(3),
+            Message.Mock(4), Message.Mock(4), Message.Mock(4), Message.Mock(4), Message.Mock(4),
+            Message.Mock(5), Message.Mock(5), Message.Mock(5), Message.Mock(5), Message.Mock(5)
         };
 
         public MessageService() { }
@@ -42,7 +42,7 @@ namespace Messaging.Service.Implementation
 
         public async ValueTask SaveAsync(Message message) {
             // imitation of save to db delay...
-            await Task.Delay(TimeSpan.FromMilliseconds(300));
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
         }
     }
 }

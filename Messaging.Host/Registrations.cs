@@ -34,7 +34,9 @@ namespace Messaging.Host
                 })
 
                 // delivery service
-                .AddTransient<IMessageDeliveryService, MessageDeliveryServiceMock>();
+                //.AddTransient<IMessageDeliveryService, MessageDeliveryServiceMock>();
+                .AddTransient<IMessageDeliveryService, MessageDeliveryServiceTwilio>();
+            
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection.Metadata;
+
 namespace Messaging.Common;
 
 public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : class
@@ -9,6 +11,7 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
     {
         try
         {
+            OnStart(context);
             Process(context);
             OnSuccess(context);
         }
@@ -26,6 +29,7 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
     {
         try
         {
+            OnStart(context);
             await ProcessAsync(context);
             OnSuccess(context);
         }
@@ -45,6 +49,8 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
     {
         await ValueTask.CompletedTask;
     }
+
+    public virtual void OnStart(TContext context) {}
 
     public virtual void OnSuccess(TContext context) {}
 
