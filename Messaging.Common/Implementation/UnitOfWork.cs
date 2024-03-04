@@ -24,7 +24,7 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
         }
     }
 
-    public async ValueTask CommitAsync(TContext context)
+    public async Task CommitAsync(TContext context)
     {
         try
         {
@@ -44,9 +44,9 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
 
     public virtual void Process(TContext context) { }
 
-    public virtual async ValueTask ProcessAsync(TContext context)
+    public virtual async Task ProcessAsync(TContext context)
     {
-        await ValueTask.CompletedTask;
+        await Task.CompletedTask;
     }
 
     public virtual void OnStart(TContext context) { }
@@ -57,8 +57,8 @@ public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContex
 
     public virtual void OnExecutionEnd(TContext context) { }
 
-    public virtual async ValueTask OnExecutionEndAsync(TContext context)
+    public virtual async Task OnExecutionEndAsync(TContext context)
     {
-        await ValueTask.CompletedTask;
+        await Task.CompletedTask;
     }
 }

@@ -8,7 +8,7 @@ public class WorkItemBuilder(
     IMessageSender messageSender
 ) : IWorkItemBuilder
 {
-    public async ValueTask BuildWorkItemAsync(CancellationToken cancellationToken, Message message)
+    public async Task BuildWorkItemAsync(CancellationToken cancellationToken, Message message)
     {
         var spec = MessageSenderSpec.Create(cancellationToken, message);
         await messageSender.CommitAsync(spec);

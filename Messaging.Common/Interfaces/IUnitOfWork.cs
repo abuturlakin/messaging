@@ -4,6 +4,6 @@
     {
         void Commit(TContext context);
 
-        ValueTask CommitAsync(TContext context);
+        Task CommitAsync(TContext context);
     }
 }

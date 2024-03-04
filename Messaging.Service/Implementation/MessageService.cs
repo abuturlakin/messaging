@@ -35,7 +35,7 @@ namespace Messaging.Service.Implementation
             return query.ToArray();
         }
 
-        public async ValueTask SaveAsync(Message message) {
+        public async Task SaveAsync(Message message) {
             await context.SaveChangesAsync();
         }
     }

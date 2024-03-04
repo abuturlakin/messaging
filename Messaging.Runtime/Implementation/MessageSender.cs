@@ -11,7 +11,7 @@ public class MessageSender
     IMessageDeliveryService messageDeliveryService
 ) : UnitOfWork<MessageSenderSpec>, IMessageSender
 {
-    public override async ValueTask ProcessAsync(MessageSenderSpec spec)
+    public override async Task ProcessAsync(MessageSenderSpec spec)
     {
         var deliverySpec = MessageDeliveryServiceSpec.Create(spec.Message, spec.CancellationToken);
         await messageDeliveryService.CommitAsync(deliverySpec);
@@ -27,7 +27,7 @@ public class MessageSender
         spec.Message.Status = MessageStatus.Failed;
     }
 
-    public override async ValueTask OnExecutionEndAsync(MessageSenderSpec spec)
+    public override async Task OnExecutionEndAsync(MessageSenderSpec spec)
     {
         var saveSpec = MessageSaverSpec.Create(spec.Message);
         await messageSaver.CommitAsync(saveSpec);

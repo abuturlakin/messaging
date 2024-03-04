@@ -5,7 +5,7 @@ namespace Messaging.Runtime.Implementation;
 
 public sealed class DefaultBackgroundTaskQueue : IBackgroundTaskQueue
 {
-    private readonly Channel<Func<CancellationToken, ValueTask>> _queue;
+    private readonly Channel<Func<CancellationToken, Task>> _queue;
 
     public DefaultBackgroundTaskQueue(int capacity)
     {
@@ -13,27 +13,27 @@ public sealed class DefaultBackgroundTaskQueue : IBackgroundTaskQueue
         {
             FullMode = BoundedChannelFullMode.Wait
         };
-        _queue = Channel.CreateBounded<Func<CancellationToken, ValueTask>>(options);
+        _queue = Channel.CreateBounded<Func<CancellationToken, Task>>(options);
     }
 
-    public async ValueTask QueueBackgroundWorkItemAsync(
-        Func<CancellationToken, ValueTask> workItem)
+    public async Task QueueBackgroundWorkItemAsync(
+        Func<CancellationToken, Task> workItem)
     {
         ArgumentNullException.ThrowIfNull(workItem);
 
         await _queue.Writer.WriteAsync(workItem);
     }
 
-    public async ValueTask<Func<CancellationToken, ValueTask>> DequeueAsync(
+    public async Task<Func<CancellationToken, Task>> DequeueAsync(
         CancellationToken cancellationToken)
     {
-        Func<CancellationToken, ValueTask>? workItem =
+        Func<CancellationToken, Task>? workItem =
             await _queue.Reader.ReadAsync(cancellationToken);
 
         return workItem;
     }
 
-    public Task QueueBackgroundWorkItemAsync(ValueTask valueTask)
+    public Task QueueBackgroundWorkItemAsync(Task valueTask)
     {
         throw new NotImplementedException();
     }

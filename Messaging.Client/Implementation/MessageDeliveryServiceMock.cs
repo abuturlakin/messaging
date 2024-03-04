@@ -9,7 +9,7 @@ public class MessageDeliveryServiceMock(
 
 ) : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
 {
-    public override async ValueTask ProcessAsync(MessageDeliveryServiceSpec spec)
+    public override async Task ProcessAsync(MessageDeliveryServiceSpec spec)
     {
         var message = spec.Message;
 

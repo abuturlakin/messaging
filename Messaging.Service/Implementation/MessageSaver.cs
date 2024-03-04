@@ -7,7 +7,7 @@ public class MessageSaver(
     IMessageService messageService
 ) : UnitOfWork<MessageSaverSpec>, IMessageSaver
 {
-    public override async ValueTask ProcessAsync(MessageSaverSpec context)
+    public override async Task ProcessAsync(MessageSaverSpec context)
     {
         await messageService.SaveAsync(context.Message);
     }

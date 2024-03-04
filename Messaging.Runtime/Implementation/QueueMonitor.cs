@@ -20,7 +20,7 @@ public sealed class QueueMonitor(
         Task.Run(async () => await MonitorAsync());
     }
 
-    private async ValueTask MonitorAsync()
+    private async Task MonitorAsync()
     {
         CancellationToken cancellationToken = applicationLifetime.ApplicationStopping;
         while (!cancellationToken.IsCancellationRequested)
@@ -60,7 +60,7 @@ public sealed class QueueMonitor(
         Message message
     )
     {
-        ValueTask workItem(CancellationToken cancellationToken) => workItemBuilder.BuildWorkItemAsync(cancellationToken, message);
+        Task workItem(CancellationToken cancellationToken) => workItemBuilder.BuildWorkItemAsync(cancellationToken, message);
         await taskQueue.QueueBackgroundWorkItemAsync(workItem);
     }
 }

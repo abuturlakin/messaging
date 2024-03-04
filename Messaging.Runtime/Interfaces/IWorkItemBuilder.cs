@@ -2,6 +2,6 @@
 {
     public interface IWorkItemBuilder
     {
-        ValueTask BuildWorkItemAsync(CancellationToken cancellationToken, Message message);
+        Task BuildWorkItemAsync(CancellationToken cancellationToken, Message message);
     }
 }

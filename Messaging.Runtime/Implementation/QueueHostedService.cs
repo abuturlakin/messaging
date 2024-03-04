@@ -22,7 +22,7 @@ public sealed class QueuedHostedService
         {
             try
             {
-                Func<CancellationToken, ValueTask>? workItem =
+                Func<CancellationToken, Task>? workItem =
                     await taskQueue.DequeueAsync(stoppingToken);
 
                 await workItem(stoppingToken);

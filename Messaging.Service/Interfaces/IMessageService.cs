@@ -8,6 +8,6 @@ namespace Messaging.Service.Interfaces
 
         Message Get(MessageGetSpec spec);
 
-        ValueTask SaveAsync(Message message);
+        Task SaveAsync(Message message);
     }
 }

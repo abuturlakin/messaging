@@ -20,7 +20,7 @@ public class MessageDeliveryServiceTwilio(
         TwilioClient.Init(TwilioConfiguration.AccountSid, TwilioConfiguration.AuthToken);
     }
 
-    public override async ValueTask ProcessAsync(MessageDeliveryServiceSpec spec)
+    public override async Task ProcessAsync(MessageDeliveryServiceSpec spec)
     {
         var message = spec.Message;
 
