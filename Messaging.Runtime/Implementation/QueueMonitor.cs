@@ -17,7 +17,7 @@ public sealed class QueueMonitor(
     public void Start()
     {
         logger.LogInformation($"{nameof(QueueMonitor)} process is starting...");
-        Task.Run(async () => await MonitorAsync());
+        Task.Run(MonitorAsync);
     }
 
     private async Task MonitorAsync()
