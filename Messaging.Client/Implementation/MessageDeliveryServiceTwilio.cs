@@ -7,6 +7,7 @@ using Messaging.Common.Implementation;
 
 namespace Messaging.Client.Implementation;
 
+[Obsolete]
 public class MessageDeliveryServiceTwilio : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
 {
     static MessageDeliveryServiceTwilio()
