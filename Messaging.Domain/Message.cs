@@ -11,13 +11,15 @@
 
         public string Phone { get; set; }
 
+        public string JsonPayload { get; set; }
+
         public static Message Mock(int batchNumber)
         {
             return new Message
             {
                 Id = Guid.NewGuid(),
                 Status = MessageStatus.NonProcessed,
-                Phone = "7034791762",
+                Phone = "17034791762",
                 BatchNumber = batchNumber
             };
         }

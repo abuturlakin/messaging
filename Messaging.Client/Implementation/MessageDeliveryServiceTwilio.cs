@@ -3,8 +3,6 @@
 using Twilio;
 using Twilio.Types;
 using Twilio.Rest.Api.V2010.Account;
-
-using Messaging.Client.Configuration;
 using Messaging.Common.Implementation;
 
 namespace Messaging.Client.Implementation;

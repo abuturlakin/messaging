@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 
+using Messaging.Common.Extensions;
 using Messaging.Runtime.Implementation;
+using Messaging.Client.Implementation;
 
 namespace Messaging.Host
 {
@@ -11,11 +12,11 @@ namespace Messaging.Host
         {
             HostApplicationBuilder builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(args);
 
-            var configuration = builder.Configuration
-                .GetSection(typeof(RuntimeConfiguration).Name)
-                .Get<RuntimeConfiguration>()!;
+            var configuration = builder.Configuration;
+            var runtimeConfiguration = configuration.AsConfiguration<RuntimeConfiguration>();
+            var vonageConfiguration = configuration.AsConfiguration<VonageConfiguration>();
 
-            RegisterDependencies(builder, configuration);
+            RegisterDependencies(builder, runtimeConfiguration, vonageConfiguration);
 
             return builder.Build();
         }

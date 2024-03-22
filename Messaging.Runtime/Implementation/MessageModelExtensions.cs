@@ -4,7 +4,7 @@
     {
         internal static string ToMessageBody(this Message message)
         {
-            return "TEST";
+            return $"Hello from Vonage Messaging API";
         }
     }
 }

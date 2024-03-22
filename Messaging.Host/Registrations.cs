@@ -14,11 +14,16 @@ namespace Messaging.Host
 {
     internal static partial class Application
     {
-        private static void RegisterDependencies(HostApplicationBuilder builder, RuntimeConfiguration configuration)
+        private static void RegisterDependencies(
+            HostApplicationBuilder builder, 
+            RuntimeConfiguration configuration, 
+            VonageConfiguration vonageConfiguration
+        )
         {
             builder.Services
                 // configuration
                 .AddSingleton<IRuntimeConfiguration, RuntimeConfiguration>(_ => configuration)
+                .AddSingleton<IVonageConfiguration, VonageConfiguration>(_ => vonageConfiguration)
 
                 // data context
                 .AddTransient<IDataContext, MemoryDataContext>()
@@ -40,7 +45,8 @@ namespace Messaging.Host
 
                 // delivery service
                 //.AddTransient<IMessageDeliveryService, MessageDeliveryServiceMock>();
-                .AddSingleton<IMessageDeliveryService, MessageDeliveryServiceTwilio>();
+                //.AddSingleton<IMessageDeliveryService, MessageDeliveryServiceTwilio>();
+                .AddSingleton<IMessageDeliveryService, MessageDeliveryServiceVonage>();
         }
     }
 }
