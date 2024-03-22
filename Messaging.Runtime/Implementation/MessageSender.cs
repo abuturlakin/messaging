@@ -10,7 +10,7 @@ namespace Messaging.Service.Implementation;
 
 public class MessageSender
 (
-    ILogger<MessageDeliveryServiceTwilio> logger,
+    ILogger<MessageSender> logger,
     IMessageSaver messageSaver,
     IMessageDeliveryService messageDeliveryService
 ) : UnitOfWork<MessageSenderSpec>, IMessageSender
