@@ -1,24 +1,16 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-using Messaging.Common.Extensions;
-using Messaging.Runtime.Implementation;
-using Messaging.Client.Implementation;
+using Messaging.Configuration.Extensions;
 
-namespace Messaging.Host
+namespace Messaging.Service;
+
+internal static partial class Application
 {
-    internal static partial class Application
+    internal static IHost Start(string[] args)
     {
-        internal static IHost Start(string[] args)
-        {
-            HostApplicationBuilder builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(args);
-
-            var configuration = builder.Configuration;
-            var runtimeConfiguration = configuration.AsConfiguration<RuntimeConfiguration>();
-            var vonageConfiguration = configuration.AsConfiguration<VonageConfiguration>();
-
-            RegisterDependencies(builder, runtimeConfiguration, vonageConfiguration);
-
-            return builder.Build();
-        }
+        return Host
+            .CreateApplicationBuilder(args)
+            .RegisterDependencies()
+            .Build();
     }
 }

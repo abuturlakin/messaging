@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
-using Messaging.Service.Interfaces;
 using Messaging.Client.Implementation;
 using Messaging.Client.Interfaces;
 using Messaging.Common.Implementation;
 using Messaging.Runtime.Implementation;
+using Messaging.Service.Interfaces;
 
 namespace Messaging.Service.Implementation;
 

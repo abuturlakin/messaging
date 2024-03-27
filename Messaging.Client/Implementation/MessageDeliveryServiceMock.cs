@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Messaging.Client.Interfaces;
+
 using Messaging.Common.Implementation;
+using Messaging.Client.Interfaces;
+using Messaging.Client.Specifications;
 
 namespace Messaging.Client.Implementation;
 
@@ -14,7 +16,7 @@ public class MessageDeliveryServiceMock(
         var message = spec.Message;
 
 #if DEBUG
-        var messageBody = $"sending message {message.Id} from batch {message.BatchNumber}.";
+        var messageBody = $"sending message {message.ReferenceId} from batch {message.BatchNumber}.";
         //logger.LogInformation($"Start {messageBody}");
 #endif
 

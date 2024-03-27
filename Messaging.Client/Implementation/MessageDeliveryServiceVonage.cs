@@ -4,13 +4,12 @@ using Vonage.Messaging;
 
 using Messaging.Client.Interfaces;
 using Messaging.Common.Implementation;
-using Microsoft.Extensions.Logging;
+using Messaging.Client.Specifications;
 
 namespace Messaging.Client.Implementation;
 
 public class MessageDeliveryServiceVonage(
-    IVonageConfiguration configuration,
-    ILogger<MessageDeliveryServiceVonage> logger
+    IVonageConfiguration configuration
 ) : UnitOfWork<MessageDeliveryServiceSpec>, IMessageDeliveryService
 {
     public override async Task ProcessAsync(MessageDeliveryServiceSpec spec)
@@ -21,12 +20,13 @@ public class MessageDeliveryServiceVonage(
             );
 
         var vonageClient = new VonageClient(credentials);
-#warning Investigate how to use reponse information...
         var response = await vonageClient.SmsClient.SendAnSmsAsync(new SendSmsRequest
         {
             To = configuration.ToNumber,
             From = configuration.VonageBrandName,
             Text = spec.Body
         });
+
+        spec.Message.Id = response.Messages.First().MessageId;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Collections.ObjectModel;
 
-namespace Messaging.Data
+namespace Messaging.Data.Implementation
 {
     public class MemoryDbSet<T> : IDbSet<T> where T : class
     {

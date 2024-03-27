@@ -1,8 +1,9 @@
-﻿using Messaging.Runtime.Implementation;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-var host = Messaging.Host.Application.Start(args);
+using Messaging.Queue.Implementation;
+
+var host = Messaging.Service.Application.Start(args);
 var monitor = host.Services.GetRequiredService<QueueMonitor>()!;
 
 monitor.Start();

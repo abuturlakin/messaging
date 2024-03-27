@@ -1,5 +1,5 @@
-﻿using Messaging.Client.Implementation;
-using Messaging.Common.Interfaces;
+﻿using Messaging.Common.Interfaces;
+using Messaging.Client.Specifications;
 
 namespace Messaging.Client.Interfaces
 {
